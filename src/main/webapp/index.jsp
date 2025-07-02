@@ -117,7 +117,7 @@
     <h2>About Us</h2>
     <p>
       At TastyBites, we blend traditional recipes with modern flavors to create unforgettable dishes.
-      With fresh ingredients and love in every bite, we’re here to satisfy your cravings!
+      With fresh ingredients and love in every bite, we are here to satisfy your cravings!
     </p>
   </section>
 
