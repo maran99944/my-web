@@ -98,17 +98,17 @@
       <div class="menu-item">
         <h3>Margherita Pizza</h3>
         <p>Classic cheese and tomato pizza with fresh basil.</p>
-        <strong>₹299</strong>
+        <strong>Rupees : 299</strong>
       </div>
       <div class="menu-item">
         <h3>Paneer Tikka</h3>
         <p>Grilled paneer cubes with spices, served with mint chutney.</p>
-        <strong>₹249</strong>
+        <strong>Rupees : 249</strong>
       </div>
       <div class="menu-item">
         <h3>Veg Biryani</h3>
         <p>Fragrant rice with vegetables and aromatic spices.</p>
-        <strong>₹199</strong>
+        <strong>Rupees : 199</strong>
       </div>
     </div>
   </section>
