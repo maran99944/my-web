@@ -1,77 +1,86 @@
 pipeline {
     agent any
-    
+
     tools {
         maven "Maven3"
     }
+
     stages {
         stage('Clean workspace') {
             steps {
                 cleanWs()
             }
         }
+
         stage('Git clone') {
             steps {
                 git branch: 'main', url: 'https://github.com/maran99944/my-web.git'
             }
         }
+
         stage('maven war file build') {
             steps {
-               sh 'mvn clean package'
+                sh 'mvn clean package'
             }
         }
-        stage('Docker images/conatiner remove') {
+
+        stage('Docker images/container remove') {
             steps {
-                script{
-                        sh '''docker stop javamavenapp_container
-                        docker rm javamavenapp_container
-                        docker rmi javamavenapp manimaran17/javamavenapp:latest'''
-                }  
-            }
-        }
-        stage('Docker images - Push to dockerhub') {
-            steps {
-                script{
-                    withDockerRegistry(credentialsId: 'docker', toolname: 'docker'){
-                
-                        sh '''docker build -t javamavenapp .
-                        docker tag javamavenapp manimaran17/javamavenapp:latest
-                        docker push  manimaran17/javamavenapp:latest'''
-                      } 
+                script {
+                    sh '''
+                        docker stop javamavenapp_container || true
+                        docker rm javamavenapp_container || true
+                        docker rmi javamavenapp || true
+                        docker rmi manimaran17/javamavenapp:latest || true
+                    '''
                 }
             }
         }
-        stage('docker container of app') {
+
+        stage('Docker images - Push to dockerhub') {
             steps {
-               sh 'docker run -d -p 9000:8080 --name javamavenapp_container -t manimaran17/javamavenapp:latest'
+                script {
+                    withDockerRegistry(credentialsId: 'docker') {
+                        sh '''
+                            docker build -t javamavenapp .
+                            docker tag javamavenapp manimaran17/javamavenapp:latest
+                            docker push manimaran17/javamavenapp:latest
+                        '''
+                    }
+                }
             }
         }
-        
-    }
-    post {
-    always {
-        script {
-            def buildStatus = currentBuild.currentResult
-            def buildUser = currentBuild.getBuildCauses('hudson.model.Cause$UserIdCause')[0]?.userId ?: 'Github User'
-            
-            emailext (
-                subject: "Pipeline ${buildStatus}: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-                    <p>This is a Jenkins maven CICD pipeline status.</p>
-                    <p>Project: ${env.JOB_NAME}</p>
-                    <p>Build Number: ${env.BUILD_NUMBER}</p>
-                    <p>Build Status: ${buildStatus}</p>
-                    <p>Started by: ${buildUser}</p>
-                    <p>Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                """,
-                to: 'maranmani31661@gmail.com',
-                from: 'maranmani31661@gmail.com',
-                replyTo: 'maranmani31661@gmail.com',
-                mimeType: 'text/html',
-                attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
-            )
-           }
-       }
 
+        stage('docker container of app') {
+            steps {
+                sh 'docker run -d -p 9000:8080 --name javamavenapp_container -t manimaran17/javamavenapp:latest'
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                def buildStatus = currentBuild.currentResult
+                def buildUser = currentBuild.getBuildCauses('hudson.model.Cause$UserIdCause')[0]?.userId ?: 'Github User'
+
+                emailext (
+                    subject: "Pipeline ${buildStatus}: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                    body: """
+                        <p>This is a Jenkins Maven CI/CD pipeline status.</p>
+                        <p>Project: ${env.JOB_NAME}</p>
+                        <p>Build Number: ${env.BUILD_NUMBER}</p>
+                        <p>Build Status: ${buildStatus}</p>
+                        <p>Started by: ${buildUser}</p>
+                        <p>Build URL: <a href='${env.BUILD_URL}'>${env.BUILD_URL}</a></p>
+                    """,
+                    to: 'maranmani31661@gmail.com',
+                    from: 'maranmani31661@gmail.com',
+                    replyTo: 'maranmani31661@gmail.com',
+                    mimeType: 'text/html',
+                    attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+                )
+            }
+        }
     }
 }
