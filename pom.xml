@@ -17,7 +17,7 @@
    
   </dependencies>
   <build>
-    <finalName>maven-cloudaseem-app</finalName>
+    <finalName>A1-restaurant</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
