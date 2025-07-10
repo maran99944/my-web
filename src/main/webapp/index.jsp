@@ -80,7 +80,7 @@
 <body>
 
   <header>
-    <h1>TastyBites</h1>
+    <h1>A1 RESTAURANT</h1>
     <nav>
       <a href="#menu">Menu</a>
       <a href="#about">About</a>
