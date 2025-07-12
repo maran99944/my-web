@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script to install Grafana on a Linux instance
+# Script to install Grafana on a Linux instance.
 
 # Update package list and install dependencies
 sudo apt-get install -y apt-transport-https software-properties-common wget
