@@ -108,7 +108,7 @@
       <div class="menu-item">
         <h3>Veg Biryani</h3>
         <p>Fragrant rice with vegetables and aromatic spices.</p>
-        <strong>Rupees : 199</strong>
+        <strong>Rupees : 150</strong>
       </div>
     </div>
   </section>
